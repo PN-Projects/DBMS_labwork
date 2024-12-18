@@ -2,11 +2,7 @@ import os
 import sqlite3
 import psycopg2
 import mysql.connector
-from dotenv import load_dotenv
-
-# Load environment variables from .env
-load_dotenv()
-DATABASE_URI = os.getenv("DATABASE_URI", "")
+from config import DATABASE_URI
 
 def print_heading(title):
     print(f"\n{'='*10} {title} {'='*10}")
