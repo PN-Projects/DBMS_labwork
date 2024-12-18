@@ -1,6 +1,1 @@
-CREATE TABLE salespeople (
-    snum NUMBER(4) PRIMARY KEY,
-    sname VARCHAR2(20),
-    city VARCHAR2(15),
-    comm NUMBER(5,2)
-);
+CREATE TABLE salespeople ( snum NUMBER(4) PRIMARY KEY, sname VARCHAR2(20), city VARCHAR2(15), comm NUMBER(5,2));
