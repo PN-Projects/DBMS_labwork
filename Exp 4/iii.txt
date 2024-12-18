@@ -1,2 +1,1 @@
-UPDATE salespeople
-SET city = 'New City';
+UPDATE salespeople SET city = 'New City'
