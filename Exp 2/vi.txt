@@ -1,0 +1,4 @@
+SELECT s.sname, s.city
+FROM salespeople s
+JOIN customer c ON s.snum = c.snum
+WHERE s.city = 'Belgaum' AND s.comm > 10;
