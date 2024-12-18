@@ -20,36 +20,73 @@ def add_experiment(cursor, number):
 def list_tables(cursor):
     cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
     tables = cursor.fetchall()
-    print("Available Tables:")
-    for table in tables:
-        print(f"- {table[0]}")
+    if not tables:
+        print("No tables available in the database.")
+    else:
+        print("Available Tables:")
+        for table in tables:
+            print(f"- {table[0]}")
+
+def display_table(cursor):
+    list_tables(cursor)
+    table_name = input("\nEnter the name of the table to display: ").strip()
+    try:
+        cursor.execute(f"SELECT * FROM {table_name}")
+        rows = cursor.fetchall()
+        cursor.execute(f"PRAGMA table_info({table_name});")
+        columns = [col[1] for col in cursor.fetchall()]
+
+        if not rows:
+            print(f"The table '{table_name}' is empty.")
+        else:
+            # Print table header
+            print("\n" + " | ".join(columns))
+            print("-" * (len(columns) * 15))
+            # Print table rows
+            for row in rows:
+                print(" | ".join(map(str, row)))
+    except Exception as e:
+        print(f"Error displaying table '{table_name}':", e)
 
 def insert_values(cursor):
     list_tables(cursor)
-    table_name = input("Select the table you want to insert values into: ").strip()
-    while True:
-        user_input = input(f"Enter values for table '{table_name}' as comma-separated values or type 'quit' to stop: ")
-        if user_input.lower() == "quit":
-            break
-        try:
-            cursor.execute(f"PRAGMA table_info({table_name});")
-            columns = [col[1] for col in cursor.fetchall()]
-            placeholders = ', '.join(['?'] * len(columns))
-            insert_query = f"INSERT INTO {table_name} VALUES ({placeholders})"
-            values = tuple(user_input.split(','))
-            cursor.execute(insert_query, values)
-            connection.commit()
-            print(f"Record inserted into '{table_name}' successfully.")
-        except Exception as e:
-            print("Error inserting record:", e)
+    table_name = input("\nSelect the table you want to insert values into: ").strip()
+    try:
+        # Fetch and display table structure
+        cursor.execute(f"PRAGMA table_info({table_name});")
+        columns = [col[1] for col in cursor.fetchall()]
+        if not columns:
+            print(f"Table '{table_name}' does not exist.")
+            return
+        
+        print("\nTable Structure (Column Order):")
+        print(" | ".join(columns))
+        print("-" * (len(columns) * 15))
+
+        while True:
+            user_input = input(f"Enter values for '{table_name}' as comma-separated values or type 'quit' to stop: ")
+            if user_input.lower() == "quit":
+                break
+            try:
+                placeholders = ', '.join(['?'] * len(columns))
+                insert_query = f"INSERT INTO {table_name} VALUES ({placeholders})"
+                values = tuple(user_input.split(','))
+                cursor.execute(insert_query, values)
+                connection.commit()
+                print(f"Record inserted into '{table_name}' successfully.")
+            except Exception as e:
+                print("Error inserting record:", e)
+    except Exception as e:
+        print(f"Error: {e}")
 
 def main_menu(cursor):
     while True:
         print("\nOptions:")
         print("1) Add Experiment")
         print("2) Insert Values in DB")
-        print("3) Exit")
-        choice = input("Select an option (1/2/3): ").strip()
+        print("3) Display Tables and Data")
+        print("4) Exit")
+        choice = input("Select an option (1/2/3/4): ").strip()
 
         if choice == "1":
             experiment_number = input("Enter the experiment number: ")
@@ -57,6 +94,8 @@ def main_menu(cursor):
         elif choice == "2":
             insert_values(cursor)
         elif choice == "3":
+            display_table(cursor)
+        elif choice == "4":
             print("Exiting the program.")
             break
         else:
@@ -76,4 +115,3 @@ finally:
     if connection:
         connection.close()
     print("Database connection closed.")
-  
