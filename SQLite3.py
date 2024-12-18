@@ -1,9 +1,23 @@
 import sqlite3
 import os
+from datetime import datetime
 
+# Function to print experiment headings
 def print_experiment_heading(number):
     print(f"\n{'='*10} EXPERIMENT {number} {'='*10}")
 
+# Initialize the experiments table
+def initialize_experiment_table(cursor):
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS experiments (
+            experiment_number TEXT,
+            query TEXT,
+            executed_at TEXT
+        );
+    """)
+    connection.commit()
+
+# Add a new experiment
 def add_experiment(cursor, number):
     print_experiment_heading(number)
     while True:
@@ -13,32 +27,68 @@ def add_experiment(cursor, number):
         try:
             cursor.execute(sql_query)
             connection.commit()
-            print("Query executed successfully.")
+            # Store the query in the experiments table
+            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            cursor.execute(
+                "INSERT INTO experiments (experiment_number, query, executed_at) VALUES (?, ?, ?)",
+                (number, sql_query, timestamp)
+            )
+            connection.commit()
+            print("Query executed and saved successfully.")
         except Exception as e:
             print("Error executing query:", e)
 
+# List all existing experiments
+def list_existing_experiments(cursor):
+    cursor.execute("SELECT DISTINCT experiment_number FROM experiments")
+    experiments = cursor.fetchall()
+    if not experiments:
+        print("No experiments found.")
+        return []
+    print("\nExisting Experiments:")
+    for exp in experiments:
+        print(f"- Experiment {exp[0]}")
+    return [exp[0] for exp in experiments]
+
+# Work on an existing experiment
 def work_on_existing_experiment(cursor):
     print("\nYou selected: Work on Existing Experiment")
-    while True:
-        try:
-            experiment_number = input("Enter the experiment number to work on (or type 'back' to return): ").strip()
-            if experiment_number.lower() == "back":
-                break
-            print_experiment_heading(experiment_number)
-            while True:
-                sql_query = input(f"Enter SQL query for Experiment {experiment_number} or type 'done' to finish: ")
-                if sql_query.lower() == "done":
-                    break
-                try:
-                    cursor.execute(sql_query)
-                    connection.commit()
-                    print("Query executed successfully.")
-                except Exception as e:
-                    print("Error executing query:", e)
-        except Exception as e:
-            print("An error occurred:", e)
-            break
+    existing_experiments = list_existing_experiments(cursor)
+    if not existing_experiments:
+        return
+    experiment_number = input("Enter the experiment number to work on: ").strip()
+    if experiment_number not in existing_experiments:
+        print(f"Experiment {experiment_number} does not exist.")
+        return
 
+    print_experiment_heading(experiment_number)
+    # Display previous queries
+    cursor.execute("SELECT query, executed_at FROM experiments WHERE experiment_number = ?", (experiment_number,))
+    queries = cursor.fetchall()
+    print("\nPrevious Queries:")
+    for query, executed_at in queries:
+        print(f"[{executed_at}] {query}")
+
+    # Allow user to add new queries
+    while True:
+        sql_query = input(f"Enter SQL query for Experiment {experiment_number} or type 'done' to finish: ")
+        if sql_query.lower() == "done":
+            break
+        try:
+            cursor.execute(sql_query)
+            connection.commit()
+            # Store the query
+            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            cursor.execute(
+                "INSERT INTO experiments (experiment_number, query, executed_at) VALUES (?, ?, ?)",
+                (experiment_number, sql_query, timestamp)
+            )
+            connection.commit()
+            print("Query executed and saved successfully.")
+        except Exception as e:
+            print("Error executing query:", e)
+
+# List all tables
 def list_tables(cursor):
     cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
     tables = cursor.fetchall()
@@ -49,6 +99,7 @@ def list_tables(cursor):
         for table in tables:
             print(f"- {table[0]}")
 
+# Display the contents of a table
 def display_table(cursor):
     list_tables(cursor)
     table_name = input("\nEnter the name of the table to display: ").strip()
@@ -61,20 +112,18 @@ def display_table(cursor):
         if not rows:
             print(f"The table '{table_name}' is empty.")
         else:
-            # Print table header
             print("\n" + " | ".join(columns))
             print("-" * (len(columns) * 15))
-            # Print table rows
             for row in rows:
                 print(" | ".join(map(str, row)))
     except Exception as e:
         print(f"Error displaying table '{table_name}':", e)
 
+# Insert values into a table
 def insert_values(cursor):
     list_tables(cursor)
     table_name = input("\nSelect the table you want to insert values into: ").strip()
     try:
-        # Fetch and display table structure
         cursor.execute(f"PRAGMA table_info({table_name});")
         columns = [col[1] for col in cursor.fetchall()]
         if not columns:
@@ -101,6 +150,7 @@ def insert_values(cursor):
     except Exception as e:
         print(f"Error: {e}")
 
+# Main menu
 def main_menu(cursor):
     while True:
         print("\nOptions:")
@@ -126,11 +176,13 @@ def main_menu(cursor):
         else:
             print("Invalid choice. Please select a valid option.")
 
+# Program execution
 try:
     database_file = "local_salespeople_db.sqlite"
     connection = sqlite3.connect(database_file)
     cursor = connection.cursor()
     print(f"Connected to the SQLite database: {database_file}")
+    initialize_experiment_table(cursor)
     main_menu(cursor)
 except Exception as e:
     print("An error occurred:", e)
