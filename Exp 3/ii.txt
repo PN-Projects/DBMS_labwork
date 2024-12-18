@@ -1,0 +1,3 @@
+SELECT *
+FROM salespeople
+WHERE comm = 11.11;
