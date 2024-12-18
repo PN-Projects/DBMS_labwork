@@ -1,0 +1,7 @@
+CREATE TABLE customer (
+    cnum NUMBER(4) PRIMARY KEY,
+    cname VARCHAR2(20),
+    city VARCHAR2(15),
+    rating NUMBER(4),
+    snum NUMBER(4) REFERENCES salespeople(snum)
+);
