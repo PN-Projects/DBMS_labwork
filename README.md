@@ -60,7 +60,7 @@ nano .env
 ```
 
 fill all the required environment vars 
-which you'll find in [sample.env](https://github.com/pn-projects/DBMS_labwork/sample.env)
+which you'll find in [sample.env](https://github.com/PN-Projects/DBMS_labwork/blob/main/sample.env)
 
 ## step 7:-
 
