@@ -73,8 +73,20 @@ we currently support 3 types of SQL databases for the operation:-
 - SQLite (python)
 - postgreSQL
 
-i recommend SQLite if you are working on local DB 
-&
-if you have either postgre or MySQL hosted somewhere then you can connect with it and work on it 
+execute `local.py` if you dont have any SQL database hosted somewhere and if you want to work locally 
+just in case if you have any MySQL or PostgreSQL database available hosted somewhere then fill it's database uri in .env file as shown in [sample.env](https://github.com/PN-Projects/DBMS_labwork/blob/main/sample.env) and then execute tools.py
 
-you can manipulate vars in [config.py](https://github.com/PN-Projects/DBMS_labwork/blob/main/config.py) as per your convenience and vars required to connect ur db as per the host you are using 
+run:- 
+to work locally 
+```bash
+python3 local.py
+```
+
+run:-
+to work on db hosted somewhere
+```bash
+python3 tool.py
+```
+
+
+you can manipulate vars in [config.py](https://github.com/PN-Projects/DBMS_labwork/blob/main/config.py) as per your convenience and vars required to connect ur db as per the host you are using ( dont forget to modify code accordingly )
