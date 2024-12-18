@@ -1,3 +1,1 @@
-SELECT *
-FROM customer
-WHERE rating = 1 AND city != 'Ahmedabad';
+SELECT * FROM customer WHERE rating = 1 AND city != 'Ahmedabad'
