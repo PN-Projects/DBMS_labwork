@@ -1,3 +1,1 @@
-SELECT *
-FROM salespeople
-WHERE city IN ('Ahmedabad', 'Kosamba');
+SELECT * FROM salespeople WHERE city IN ('Ahmedabad', 'Kosamba')
