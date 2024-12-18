@@ -1,1 +1,1 @@
-SELECT city, sname, snum, comm FROM salespeople;
+SELECT city, sname, snum, comm FROM salespeople
