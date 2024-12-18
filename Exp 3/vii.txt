@@ -1,0 +1,3 @@
+SELECT *
+FROM salespeople
+ORDER BY city ASC, comm ASC;
