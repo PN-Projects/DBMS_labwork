@@ -1,0 +1,2 @@
+DELETE FROM orders
+WHERE amt = 305;
