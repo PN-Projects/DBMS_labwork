@@ -1,1 +1,3 @@
-
+SELECT *
+FROM salespeople
+WHERE city IS NULL;
