@@ -77,4 +77,4 @@ i recommend SQLite if you are working on local DB
 &
 if you have either postgre or MySQL hosted somewhere then you can connect with it and work on it 
 
-you can manipulate vars in [config.py](https://github.com/pn-projects/DBMS_labwork/config.py) as per your convenience and vars required to connect ur db as per the host you are using 
+you can manipulate vars in [config.py](https://github.com/PN-Projects/DBMS_labwork/blob/main/config.py) as per your convenience and vars required to connect ur db as per the host you are using 
