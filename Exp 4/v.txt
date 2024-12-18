@@ -1,0 +1,3 @@
+UPDATE salespeople
+SET sname = 'New Name', city = 'New City'
+WHERE snum = <specific_snum>;
