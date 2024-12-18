@@ -124,7 +124,7 @@ def insert_values(cursor, connection, db_type):
         print("Error:", e)
 
 def fire_query(cursor, connection):
-    """Execute queries from a file or direct input."""
+    """Execute queries from a file or direct input and display the results."""
     print_heading("FIRE QUERY")
     print("1) Fire queries from a text file")
     print("2) Fire queries from direct input")
@@ -139,9 +139,15 @@ def fire_query(cursor, connection):
                     query = query.strip()
                     if query:
                         cursor.execute(query)
+                        connection.commit()
                         print(f"Executed: {query}")
-                connection.commit()
-                print("All queries executed successfully.")
+                        if query.lower().startswith("select"):
+                            rows = cursor.fetchall()
+                            print("Query Results:")
+                            for row in rows:
+                                print(row)
+                        else:
+                            print("Query executed successfully (Non-SELECT).")
             except Exception as e:
                 print("Error executing queries from file:", e)
         else:
@@ -154,7 +160,13 @@ def fire_query(cursor, connection):
             try:
                 cursor.execute(sql_query)
                 connection.commit()
-                print("Query executed successfully.")
+                if sql_query.lower().startswith("select"):
+                    rows = cursor.fetchall()
+                    print("Query Results:")
+                    for row in rows:
+                        print(row)
+                else:
+                    print("Query executed successfully (Non-SELECT).")
             except Exception as e:
                 print("Error executing query:", e)
     else:
