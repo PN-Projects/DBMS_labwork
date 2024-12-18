@@ -1,2 +1,1 @@
-DELETE FROM orders
-WHERE amt = 305;
+DELETE FROM orders WHERE amt = 305
