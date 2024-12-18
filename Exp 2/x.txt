@@ -1,0 +1,4 @@
+SELECT c.cname, s.sname
+FROM customer c
+JOIN salespeople s ON c.snum = s.snum
+WHERE s.sname IN ('Devendra Vashi', 'Yogini Vashi');
