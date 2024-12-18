@@ -1,0 +1,3 @@
+UPDATE salespeople
+SET city = 'Surat'
+WHERE comm = 88.99;
