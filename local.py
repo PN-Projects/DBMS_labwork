@@ -75,7 +75,7 @@ def insert_values(cursor, connection):
         print("Error:", e)
 
 def fire_query(cursor, connection):
-    """Execute queries from a file or direct input."""
+    """Execute queries from a file or direct input and display the results."""
     print_heading("FIRE QUERY")
     print("1) Fire queries from a text file")
     print("2) Fire queries from direct input")
@@ -89,10 +89,23 @@ def fire_query(cursor, connection):
                 for query in queries.split(";"):
                     query = query.strip()
                     if query:
-                        cursor.execute(query)
-                        print(f"Executed: {query}")
-                connection.commit()
-                print("All queries executed successfully.")
+                        try:
+                            cursor.execute(query)
+                            connection.commit()
+                            print(f"Executed: {query}")
+                            # If SELECT query, display output
+                            if query.lower().startswith("select"):
+                                rows = cursor.fetchall()
+                                if rows:
+                                    print("\nQuery Result:")
+                                    for row in rows:
+                                        print(row)
+                                else:
+                                    print("\nQuery executed but returned no results.")
+                            else:
+                                print("Query executed successfully (Non-SELECT).")
+                        except Exception as e:
+                            print(f"Error executing query '{query}':", e)
             except Exception as e:
                 print("Error executing queries from file:", e)
         else:
@@ -105,7 +118,17 @@ def fire_query(cursor, connection):
             try:
                 cursor.execute(sql_query)
                 connection.commit()
-                print("Query executed successfully.")
+                # If SELECT query, display output
+                if sql_query.lower().startswith("select"):
+                    rows = cursor.fetchall()
+                    if rows:
+                        print("\nQuery Result:")
+                        for row in rows:
+                            print(row)
+                    else:
+                        print("\nQuery executed but returned no results.")
+                else:
+                    print("Query executed successfully (Non-SELECT).")
             except Exception as e:
                 print("Error executing query:", e)
     else:
