@@ -17,6 +17,28 @@ def add_experiment(cursor, number):
         except Exception as e:
             print("Error executing query:", e)
 
+def work_on_existing_experiment(cursor):
+    print("\nYou selected: Work on Existing Experiment")
+    while True:
+        try:
+            experiment_number = input("Enter the experiment number to work on (or type 'back' to return): ").strip()
+            if experiment_number.lower() == "back":
+                break
+            print_experiment_heading(experiment_number)
+            while True:
+                sql_query = input(f"Enter SQL query for Experiment {experiment_number} or type 'done' to finish: ")
+                if sql_query.lower() == "done":
+                    break
+                try:
+                    cursor.execute(sql_query)
+                    connection.commit()
+                    print("Query executed successfully.")
+                except Exception as e:
+                    print("Error executing query:", e)
+        except Exception as e:
+            print("An error occurred:", e)
+            break
+
 def list_tables(cursor):
     cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
     tables = cursor.fetchall()
@@ -83,19 +105,22 @@ def main_menu(cursor):
     while True:
         print("\nOptions:")
         print("1) Add Experiment")
-        print("2) Insert Values in DB")
-        print("3) Display Tables and Data")
-        print("4) Exit")
-        choice = input("Select an option (1/2/3/4): ").strip()
+        print("2) Work on Existing Experiment")
+        print("3) Insert Values in DB")
+        print("4) Display Tables and Data")
+        print("5) Exit")
+        choice = input("Select an option (1/2/3/4/5): ").strip()
 
         if choice == "1":
             experiment_number = input("Enter the experiment number: ")
             add_experiment(cursor, experiment_number)
         elif choice == "2":
-            insert_values(cursor)
+            work_on_existing_experiment(cursor)
         elif choice == "3":
-            display_table(cursor)
+            insert_values(cursor)
         elif choice == "4":
+            display_table(cursor)
+        elif choice == "5":
             print("Exiting the program.")
             break
         else:
