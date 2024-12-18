@@ -1,7 +1,1 @@
-CREATE TABLE orders (
-    onum NUMBER(4) PRIMARY KEY,
-    amt NUMBER(6,2),
-    odate DATE,
-    cnum NUMBER(4) REFERENCES customer(cnum),
-    snum NUMBER(4) REFERENCES salespeople(snum)
-);
+CREATE TABLE orders (onum NUMBER(4) PRIMARY KEY, amt NUMBER(6,2), odate DATE, cnum NUMBER(4) REFERENCES customer(cnum), snum NUMBER(4) REFERENCES salespeople(snum))
