@@ -1,3 +1,1 @@
-SELECT c.cname, s.sname
-FROM customer c
-JOIN salespeople s ON c.snum = s.snum;
+SELECT c.cname, s.sname FROM customer c JOIN salespeople s ON c.snum = s.snum
