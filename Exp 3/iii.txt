@@ -1,3 +1,1 @@
-SELECT *
-FROM salespeople
-WHERE city = 'Ahmedabad' AND comm = 25.52;
+SELECT * FROM salespeople WHERE city = 'Ahmedabad' AND comm = 25.52
