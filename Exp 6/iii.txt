@@ -1,1 +1,1 @@
-SELECT AVG(amt) AS average_purchase_amount FROM orders;
+SELECT AVG(amt) AS average_purchase_amount FROM orders
