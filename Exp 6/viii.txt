@@ -1,0 +1,1 @@
+SELECT city, MAX(rating) AS highest_grade FROM customer GROUP BY city
