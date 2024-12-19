@@ -1,0 +1,1 @@
+SELECT MAX(amt) AS max_purchase_amount, MIN(amt) AS min_purchase_amount FROM orders
