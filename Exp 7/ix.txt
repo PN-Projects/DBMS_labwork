@@ -1,0 +1,1 @@
+SELECT customer.* FROM customer JOIN salespeople ON customer.city = salespeople.city
