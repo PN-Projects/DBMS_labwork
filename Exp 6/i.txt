@@ -1,19 +1,19 @@
-SELECT onum, amt + 10 AS added_amount FROM orders;
+SELECT onum, amt + 10 AS added_amount FROM orders
 
-SELECT onum, amt - 10 AS subtracted_amount FROM orders;
+SELECT onum, amt - 10 AS subtracted_amount FROM orders
 
-SELECT onum, amt * 2 AS multiplied_amount FROM orders;
+SELECT onum, amt * 2 AS multiplied_amount FROM orders
 
-SELECT onum, amt / 2 AS divided_amount FROM orders;
+SELECT onum, amt / 2 AS divided_amount FROM orders
 
-SELECT onum, amt % 10 AS remainder FROM orders;
+SELECT onum, amt % 10 AS remainder FROM orders
 
-SELECT SUM(amt) AS total_amount FROM orders;
+SELECT SUM(amt) AS total_amount FROM orders
 
-SELECT AVG(amt) AS average_amount FROM orders;
+SELECT AVG(amt) AS average_amount FROM orders
 
-SELECT MIN(amt) AS minimum_amount FROM orders;
+SELECT MIN(amt) AS minimum_amount FROM orders
 
-SELECT MAX(amt) AS maximum_amount FROM orders;
+SELECT MAX(amt) AS maximum_amount FROM orders
 
-SELECT COUNT(*) AS total_orders FROM orders;
+SELECT COUNT(*) AS total_orders FROM orders
