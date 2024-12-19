@@ -1,0 +1,1 @@
+SELECT COUNT(*) AS rated_customers FROM customer WHERE rating IS NOT NULL
