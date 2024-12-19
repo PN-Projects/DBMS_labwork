@@ -1,0 +1,1 @@
+SELECT cnum, odate, MAX(amt) AS highest_purchase FROM orders GROUP BY cnum, odate
