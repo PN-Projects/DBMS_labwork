@@ -1,0 +1,1 @@
+SELECT COUNT(DISTINCT snum) AS total_salesmen FROM customer
