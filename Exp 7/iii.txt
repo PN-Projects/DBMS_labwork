@@ -1,1 +1,1 @@
-SELECT * FROM customer WHERE cname LIKE '%G';
+SELECT * FROM customer WHERE cname LIKE '%G'
