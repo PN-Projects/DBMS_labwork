@@ -1,0 +1,5 @@
+SELECT cnum, odate, MAX(amt) AS highest_purchase 
+FROM orders 
+WHERE amt > 100 
+GROUP BY cnum, odate 
+HAVING MAX(amt) > 100
