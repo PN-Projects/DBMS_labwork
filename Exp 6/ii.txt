@@ -1,1 +1,1 @@
-SELECT SUM(amt) AS total_purchase_amount FROM orders;
+SELECT SUM(amt) AS total_purchase_amount FROM orders
