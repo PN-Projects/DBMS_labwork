@@ -1,0 +1,4 @@
+SELECT snum, MAX(amt) AS highest_purchase 
+FROM orders 
+WHERE odate = '2006-01-01' 
+GROUP BY snum
